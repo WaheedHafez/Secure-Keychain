@@ -1,4 +1,5 @@
 import keychain.KeyChain;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -90,6 +91,33 @@ class KeyChainTest {
         // then
         var name = "www.stanford.edu";
         assertFalse(keyChain.remove(name));
+    }
+
+    //********** Test dump and restore *********//
+
+    @Test
+    void can_dump_and_restore_the_database() {
+        // given
+        KeyChain keyChain = KeyChain.init(password);
+        for (var entry : kvs.entrySet()) {
+            keyChain.set(entry.getKey(), entry.getValue());
+        }
+
+        // when
+        String[] dump = keyChain.dump();
+        String contents = dump[0];
+        String checksum = dump[1];
+
+        KeyChain newKeyChain = KeyChain.load(password, contents, checksum);
+
+        // then
+        assertDoesNotThrow(() -> {
+            new JSONObject(contents);
+        });
+
+        for (var k : kvs.keySet()) {
+            assertEquals(kvs.get(k), newKeyChain.get(k));
+        }
     }
 
     //*********** setup and teardown ***********//
