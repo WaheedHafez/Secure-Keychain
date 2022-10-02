@@ -1,6 +1,11 @@
 package keychain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class KeyChainImpl implements KeyChain {
+
+    private final Map<String, String> kvs = new HashMap<>();
 
     @Override
     public String[] dump() {
@@ -9,16 +14,16 @@ class KeyChainImpl implements KeyChain {
 
     @Override
     public void set(String name, String value) {
-        throw new RuntimeException("TODO");
+        kvs.put(name, value);
     }
 
     @Override
     public String get(String name) {
-        throw new RuntimeException("TODO");
+        return kvs.get(name);
     }
 
     @Override
     public boolean remove(String name) {
-        throw new RuntimeException("TODO");
+        return kvs.remove(name) != null;
     }
 }

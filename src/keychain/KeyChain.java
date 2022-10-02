@@ -16,7 +16,7 @@ public interface KeyChain {
         // necessary keys you need to provide for the various functionality of the password manager. Once
         // initialized, the returned password manager should be in ready to support the other functionality
         // described in the API.
-        throw new RuntimeException("TODO");
+        return new KeyChainImpl();
     }
 
 
