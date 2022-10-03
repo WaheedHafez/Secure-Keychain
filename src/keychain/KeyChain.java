@@ -16,7 +16,7 @@ public interface KeyChain {
         // necessary keys you need to provide for the various functionality of the password manager. Once
         // initialized, the returned password manager should be in ready to support the other functionality
         // described in the API.
-        return new KeyChainImpl();
+        return new KeyChainImpl(password.toCharArray());
     }
 
 
@@ -36,7 +36,7 @@ public interface KeyChain {
      * @param trustedDataCheck  SHA-256 hash of the keychain; note that this is an optional parameter
      */
     static KeyChain load(String password, String repr, String trustedDataCheck) {
-        return new KeyChainImpl(repr);
+        return new KeyChainImpl(password.toCharArray(), repr);
     }
 
     //********* API ********//

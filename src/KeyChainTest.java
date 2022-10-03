@@ -120,6 +120,26 @@ class KeyChainTest {
         }
     }
 
+    //********* Test security *******************//
+
+    @Test
+    void does_not_store_domain_names_and_passwords_in_the_clear() {
+        // given
+        KeyChain keyChain = KeyChain.init(password);
+        var url = "www.stanford.edu";
+        var pw = "sunetpassword";
+        keyChain.set(url, pw);
+
+        // when
+        String[] dump = keyChain.dump();
+        String contents = dump[0];
+
+        // then
+        assertFalse(contents.contains(password));
+        assertFalse(contents.contains(url));
+        assertFalse(contents.contains(pw));
+    }
+
     //*********** setup and teardown ***********//
 
     @BeforeEach
