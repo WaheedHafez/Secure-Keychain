@@ -18,4 +18,26 @@ class SessionKeysTest {
 
         assertNotEquals(encKey, authKey);
     }
+
+    @Test
+    void testGivenTheSalt() {
+        var password = "password123!".toCharArray();
+        SessionKeys sessionKeysWithoutSalt = new SessionKeys(password);
+
+        SessionKeys sessionKeysGivenSalt = new SessionKeys(
+                password,
+                sessionKeysWithoutSalt.getSalt()
+        );
+
+        assertEquals(
+                sessionKeysWithoutSalt.encryptionKey(),
+                sessionKeysGivenSalt.encryptionKey()
+        );
+
+        assertEquals(
+                sessionKeysWithoutSalt.macKey(),
+                sessionKeysGivenSalt.macKey()
+        );
+
+    }
 }
