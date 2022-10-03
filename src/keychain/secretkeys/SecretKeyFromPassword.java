@@ -1,4 +1,4 @@
-package keychain;
+package keychain.secretkeys;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;

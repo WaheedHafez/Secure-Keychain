@@ -1,4 +1,4 @@
-package keychain;
+package keychain.secretkeys;
 
 import org.junit.jupiter.api.Test;
 
