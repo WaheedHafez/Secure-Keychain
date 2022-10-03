@@ -18,7 +18,13 @@ class SecretKeyFromPassword {
 
     SecretKeyFromPassword(char[] password) {
         SecretKeyFactory keyFactory = getKeyFactory();
-        PBEKeySpec pbeKeySpec = getKeySpec();
+        PBEKeySpec pbeKeySpec = getKeySpec(password);
+        dSecretKey = (PBEKey) generateSecretKey(keyFactory, pbeKeySpec);
+    }
+
+    public SecretKeyFromPassword(char[] password, byte[] salt) {
+        SecretKeyFactory keyFactory = getKeyFactory();
+        PBEKeySpec pbeKeySpec = getKeySpec(password, salt);
         dSecretKey = (PBEKey) generateSecretKey(keyFactory, pbeKeySpec);
     }
 
@@ -34,12 +40,17 @@ class SecretKeyFromPassword {
         }
     }
 
-    private static PBEKeySpec getKeySpec() {
+    private static PBEKeySpec getKeySpec(char[] password) {
         byte[] salt = generateSalt();
+
+        return getKeySpec(password, salt);
+    }
+
+    private static PBEKeySpec getKeySpec(char[] password, byte[] salt) {
         var iterationCount = 10000;
         var keyLenInBit = 256;
 
-        return new PBEKeySpec(new char[]{}, salt, iterationCount, keyLenInBit);
+        return new PBEKeySpec(password, salt, iterationCount, keyLenInBit);
     }
 
     private static byte[] generateSalt() {
