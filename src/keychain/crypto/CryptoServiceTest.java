@@ -6,6 +6,49 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CryptoServiceTest {
 
+    //****** Test hash() *********//
+    @Test
+    void hashSameMessageTwice() {
+        var password = "pw123456";
+        CryptoService cryptoService = new CryptoService(password.toCharArray());
+
+        var plainText = "CryptoServiceTest";
+
+        String hash1 = cryptoService.hash(plainText);
+        String hash2 = cryptoService.hash(plainText);
+
+        assertEquals(hash1, hash2);
+    }
+
+    @Test
+    void hashDifferentMessagesOutputsDifferentHashes() {
+        var password = "pw123456";
+        CryptoService cryptoService = new CryptoService(password.toCharArray());
+
+        var plainText1 = "plainText1";
+        var plainText2 = "plainText2";
+
+        String hash1 = cryptoService.hash(plainText1);
+        String hash2 = cryptoService.hash(plainText2);
+
+        assertNotEquals(hash1, hash2);
+    }
+
+    @Test
+    void hashesTo() {
+        var password = "pw123456";
+        CryptoService cryptoService = new CryptoService(password.toCharArray());
+
+        var plainText = "plainText";
+
+        String hash = cryptoService.hash(plainText);
+
+        assertTrue(cryptoService.hashesTo(plainText, hash));
+
+        var plainText1 = "plainText1";
+        assertFalse(cryptoService.hashesTo(plainText1, hash));
+    }
+
     //****** Test encrypt() *********//
     @Test
     void encrypt() {
