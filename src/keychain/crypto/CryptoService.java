@@ -1,4 +1,4 @@
-package keychain.secretkeys;
+package keychain.crypto;
 
 public class CryptoService {
 

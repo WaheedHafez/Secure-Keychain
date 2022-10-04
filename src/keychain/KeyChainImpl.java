@@ -1,6 +1,6 @@
 package keychain;
 
-import keychain.secretkeys.CryptoService;
+import keychain.crypto.CryptoService;
 import org.json.JSONObject;
 
 import java.util.HashMap;

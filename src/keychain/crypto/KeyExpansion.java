@@ -1,4 +1,4 @@
-package keychain.secretkeys;
+package keychain.crypto;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;

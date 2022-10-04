@@ -1,4 +1,4 @@
-package keychain.secretkeys;
+package keychain.crypto;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;

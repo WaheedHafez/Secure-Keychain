@@ -1,8 +1,6 @@
-package keychain.secretkeys;
+package keychain.crypto;
 
 import org.junit.jupiter.api.Test;
-
-import javax.crypto.AEADBadTagException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
