@@ -3,8 +3,8 @@ package keychain;
 import keychain.secretkeys.CryptoService;
 import org.json.JSONObject;
 
-import java.util.Base64;
 import java.util.HashMap;
+import java.util.HexFormat;
 import java.util.Map;
 
 class KeyChainImpl implements KeyChain {
@@ -13,28 +13,35 @@ class KeyChainImpl implements KeyChain {
 
     private final CryptoService cryptoService;
 
+    private final JSONObject json;
+
     public KeyChainImpl(char[] password) {
         this.cryptoService = new CryptoService(password);
-        kvs.put("salt", Base64.getEncoder().encodeToString(cryptoService.getSalt()));
+        this.json = new JSONObject();
+
+        json.put("salt", HexFormat.of().formatHex(cryptoService.getSalt()));
     }
 
     public KeyChainImpl(char[] password, String repr) {
-        JSONObject jsonObject = new JSONObject(repr);
-        Map<String, Object> jsonMap = jsonObject.toMap();
-        for (var entry : jsonMap.entrySet()) {
-            kvs.put(entry.getKey(), (String) entry.getValue());
-        }
+        this.json = new JSONObject(repr);
 
-        String saltEncode = kvs.get("salt");
-        byte[] salt = Base64.getDecoder().decode(saltEncode);
+        String saltEncoded = (String) json.get("salt");;
+        byte[] salt = HexFormat.of().parseHex(saltEncoded);
         this.cryptoService = new CryptoService(password, salt);
+
+        JSONObject kvsJson = json.getJSONObject("kvs");
+        Map<String, Object> jsonMap = kvsJson.toMap();
+
+        for (var entry : jsonMap.entrySet()) {
+            this.kvs.put(entry.getKey(), (String) entry.getValue());
+        }
     }
 
     @Override
     public String[] dump() {
-        JSONObject jsonObject = new JSONObject(kvs);
+        json.put("kvs", new JSONObject(kvs));
         String[] dump = new String[2];
-        dump[0] = jsonObject.toString();
+        dump[0] = json.toString();
         return dump;
     }
 
