@@ -48,13 +48,15 @@ class KeyChainImpl implements KeyChain {
     @Override
     public void set(String name, String value) {
         String nameHash = cryptoService.mac(name);
-        kvs.put(nameHash, value);
+        String valueEncrypted = cryptoService.encrypt(value);
+        kvs.put(nameHash, valueEncrypted);
     }
 
     @Override
     public String get(String name) {
         String nameHash = cryptoService.mac(name);
-        return kvs.get(nameHash);
+        String encryptedValue = kvs.get(nameHash);
+        return encryptedValue != null ? cryptoService.decrypt(encryptedValue) : null;
     }
 
     @Override
