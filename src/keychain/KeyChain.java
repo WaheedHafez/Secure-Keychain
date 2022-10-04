@@ -36,7 +36,7 @@ public interface KeyChain {
      * @param trustedDataCheck  SHA-256 hash of the keychain; note that this is an optional parameter
      */
     static KeyChain load(String password, String repr, String trustedDataCheck) {
-        return new KeyChainImpl(password.toCharArray(), repr);
+        return new KeyChainImpl(password.toCharArray(), repr, trustedDataCheck);
     }
 
     //********* API ********//

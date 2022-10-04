@@ -22,12 +22,15 @@ class KeyChainImpl implements KeyChain {
         json.put("salt", HexFormat.of().formatHex(cryptoService.getSalt()));
     }
 
-    public KeyChainImpl(char[] password, String repr) {
+    public KeyChainImpl(char[] password, String repr, String trustedDataCheck) {
         this.json = new JSONObject(repr);
 
         String saltEncoded = (String) json.get("salt");;
         byte[] salt = HexFormat.of().parseHex(saltEncoded);
         this.cryptoService = new CryptoService(password, salt);
+
+        if (!cryptoService.hashesTo(repr, trustedDataCheck))
+            throw new IllegalArgumentException("Integrity failure");
 
         JSONObject kvsJson = json.getJSONObject("kvs");
         Map<String, Object> jsonMap = kvsJson.toMap();
@@ -42,6 +45,7 @@ class KeyChainImpl implements KeyChain {
         json.put("kvs", new JSONObject(kvs));
         String[] dump = new String[2];
         dump[0] = json.toString();
+        dump[1] = cryptoService.hash(dump[0]);
         return dump;
     }
 
