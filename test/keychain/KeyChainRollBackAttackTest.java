@@ -1,6 +1,5 @@
 package keychain;
 
-import keychain.KeyChain;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -41,7 +40,7 @@ class KeyChainRollBackAttackTest {
     }
 
     @Test
-    void can_dump_and_restore_the_database() {
+    void rollback_resistant() {
         // given
         KeyChain keyChain = KeyChain.init(password);
         var url = "www.stanford.edu";
