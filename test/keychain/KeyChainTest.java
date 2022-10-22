@@ -1,3 +1,5 @@
+package keychain;
+
 import keychain.KeyChain;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
