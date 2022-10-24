@@ -8,7 +8,7 @@ The item's 'value' represents the secret data that must be protected.
 
 The items's 'key' represents the meta-data for that value.
 
-Each 'value' is encrypted individually using AEM_GCM authenticated encryption algorithm. See [EncryptionService.java](https://github.com/WaheedHafez/Secure-Keychain/blob/master/src/keychain/crypto/EncryptionService.java).
+Each 'value' is encrypted individually using AES-GCM authenticated encryption algorithm. See [EncryptionService.java](https://github.com/WaheedHafez/Secure-Keychain/blob/master/src/keychain/crypto/EncryptionService.java).
 
 Each 'key' is hashed using HmacSHA256 algorithm to support searching on the encrypted data. See [MacService.java](https://github.com/WaheedHafez/Secure-Keychain/blob/master/src/keychain/crypto/MacService.java).
 
